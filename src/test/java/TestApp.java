@@ -6,6 +6,23 @@ import org.junit.Test;
 public class TestApp {
 	
 	@Test
+	public void testAnimaux() {
+		Zoo z = new Zoo();
+		z.ajouterSecteur(TypeAnimal.CHIEN);
+		
+		assertTrue(z.nombreAnimaux() == 0);
+		
+		try {
+			z.nouvelAnimal(new Chien("Fido"));
+		} catch (Throwable th) {
+			
+			assertTrue(th instanceof AnimalDansMauvaisSecteurException);
+		}
+		
+		assertTrue(z.nombreAnimaux() == 1);
+	}
+	
+	@Test
 	public void testVisiteurs() {
 		Zoo z = new Zoo();
 		Throwable e = null;
