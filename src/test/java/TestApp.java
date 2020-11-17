@@ -1,3 +1,4 @@
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -57,5 +58,28 @@ public class TestApp {
 		assertNull(e);
 		assertTrue(z.getNbVisiteurs() <= z.getLimiteVisiteur());
 		
+	}
+	
+	@Test
+	public void testTypeAnimaux() {
+		Zoo z = new Zoo();
+		Throwable t = null;
+		z.ajouterSecteur(TypeAnimal.CHAT);
+		try {
+			z.nouvelAnimal(new Chat("Chat1"));
+		}
+		catch (AnimalDansMauvaisSecteurException e) {
+			t = e;
+		}
+		assertTrue(t == null);
+		
+		t = null;
+		try {
+			z.nouvelAnimal(new Chien("Chien1"));
+		}
+		catch (AnimalDansMauvaisSecteurException e) {
+			t = e;
+		}
+		assertNotEquals(null, t);		
 	}
 }
