@@ -1,6 +1,9 @@
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+
+import java.util.List;
 
 import org.junit.Test;
 
@@ -81,5 +84,20 @@ public class TestApp {
 			t = e;
 		}
 		assertNotEquals(null, t);		
+	}
+	
+	public void testComparable() {
+		Zoo z = new Zoo();
+		z.ajouterSecteur(TypeAnimal.CHAT);
+		z.ajouterSecteur(TypeAnimal.CHIEN);
+		try {
+			z.nouvelAnimal(new Chien("Chien1"));
+		} catch (AnimalDansMauvaisSecteurException e) {
+			assertFalse(true);
+		}
+		List<Secteur> secteurs = z.getSecteursAnimaux();
+		assertTrue(secteurs.size() == 2);
+		assertTrue(secteurs.get(0).compareTo(secteurs.get(1)) < 0);
+		
 	}
 }

@@ -1,3 +1,10 @@
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,5 +62,32 @@ public class Zoo {
 
 	public List<Secteur> getSecteursAnimaux() {
 		return secteursAnimaux;
+	}
+	
+	public void saveToDisk(String path) {
+		XMLEncoder encoder = null;
+		try {
+			encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(path)));
+		} catch (FileNotFoundException e) {
+			return;
+		}
+		encoder.writeObject(this);
+		encoder.close();
+	}
+	
+	public static Zoo loadFromFile(String path) {
+		XMLDecoder decoder=null;
+		try {
+			decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(path)));
+		} catch (FileNotFoundException e) {
+			return null;
+		}
+		Zoo zoo = (Zoo)decoder.readObject();
+		decoder.close();
+		if (zoo == null) {
+			zoo = new Zoo();
+		}
+		return zoo;
+		
 	}
 }
